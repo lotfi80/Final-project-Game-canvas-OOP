@@ -1,9 +1,4 @@
-// function getNextObstacleColor(currentColor) {
-//     const obstacleColors = ['green', 'gold','orange','red'];
-//     const currentIndex = obstacleColors.indexOf(currentColor);
-//     const nextIndex = (currentIndex + 1) % obstacleColors.length;
-//     return obstacleColors[nextIndex];
-//   }
+
   
   export default class Ball {
     

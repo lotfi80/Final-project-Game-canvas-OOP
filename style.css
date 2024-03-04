@@ -1,0 +1,10 @@
+#canvas-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Vollständige Höhe des Bildschirms */
+}
+
+#canvas-2d {
+    border: 5px solid red; /* Optional: Rahmen für das Canvas hinzufügen */
+}
