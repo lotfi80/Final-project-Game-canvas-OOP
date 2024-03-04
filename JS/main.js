@@ -3,6 +3,10 @@
 
 import Player from "./classen/player.js";
 import Ball from "./classen/ball.js";
+import Obstacles from "./classen/obstacles.js";
+
+
+
 
 const canvas = document.getElementById("canvas-2d");
 canvas.width = 700;
@@ -12,7 +16,7 @@ const ctx = canvas.getContext("2d");
 // Initialisieren Sie das Spiel beim Laden der Seite
 
 
-let obstacles = [
+let obstacleArray = [
   { x: 100, y: 300, width: 50, height: 50, color: "green" },
   { x: 300, y: 300, width: 50, height: 50, color: "green" },
   { x: 500, y: 300, width: 50, height: 50, color: "green" },
@@ -40,8 +44,10 @@ const maxRounds = 3;
 
 let yesButtonGameOver;
 let noButtonGameOver;
-
-
+/// obstacles instance öffnet neu object und in der obstaclesInstance.getObstacles() schickt es zurück in Array
+let obstaclesInstance= new Obstacles(obstacleArray)
+let obstacles = obstaclesInstance.getObstacles()
+console.log(obstacles)
 let ball = new Ball(
   ballX,
   ballY - ballRadius,
@@ -51,12 +57,13 @@ let ball = new Ball(
   0
 );
 
+
 window.onload = function () {
   ctx.fillStyle = "black";
 ctx.fillRect(0, 0, canvas.width, canvas.height);
 player.drawPlayer(ctx);
 ball.drawBall(ctx);
-drawObstacles();
+obstaclesInstance.drawObstacles(ctx);
   // ... (Code zum Initialisieren des Canvas, der Spieler, Hindernisse usw.)
   // Beispiel: initializeGame();
   // ...
@@ -69,36 +76,38 @@ drawObstacles();
 
 
 
-function drawLine(x1, y1, x2, y2) {
-  ctx.beginPath();
-  ctx.moveTo(x1, y1);
-  ctx.lineTo(x2, y2);
-  ctx.stroke();
+// function drawLine(x1, y1, x2, y2) {
+//   ctx.beginPath();
+//   ctx.moveTo(x1, y1);
+//   ctx.lineTo(x2, y2);
+//   ctx.stroke();
+// }
+
+// function drawOneObstacle(x1, y1, w, h, color) {
+//   ctx.fillStyle = color;
+//   ctx.fillRect(x1, y1, w, h);
+
+//   ctx.strokeStyle = "white";
+//   // drawLine(x1, y1, x1 + w, y1);
+//   // drawLine(x1, y1, x1, y1 + h);
+//   // drawLine(x1 + w, y1, x1 + w, y1 + h);
+//   // drawLine(x1, y1 + h, x1 + w, y1 + h);
+// }
+
+// function drawObstacles() {
+//   obstacles.forEach((obstacle) => {
+//     drawOneObstacle(
+//       obstacle.x,
+//       obstacle.y,
+//       obstacle.width,
+//       obstacle.height,
+//       obstacle.color
+//     );
+//   });
+// }
+function noButtonClickHandler (){
+  alert('Thank you for playing!');
 }
-
-function drawOneObstacle(x1, y1, w, h, color) {
-  ctx.fillStyle = color;
-  ctx.fillRect(x1, y1, w, h);
-
-  ctx.strokeStyle = "white";
-  drawLine(x1, y1, x1 + w, y1);
-  drawLine(x1, y1, x1, y1 + h);
-  drawLine(x1 + w, y1, x1 + w, y1 + h);
-  drawLine(x1, y1 + h, x1 + w, y1 + h);
-}
-
-function drawObstacles() {
-  obstacles.forEach((obstacle) => {
-    drawOneObstacle(
-      obstacle.x,
-      obstacle.y,
-      obstacle.width,
-      obstacle.height,
-      obstacle.color
-    );
-  });
-}
-
 
 function initializeGameVariables() {
   player = new Player(350, 650, 100, 10, 5);
@@ -110,11 +119,8 @@ function initializeGameVariables() {
     ballRadius,
     0
   );
-  obstacles = [
-    { x: 100, y: 300, width: 50, height: 50, color: "green" },
-    { x: 300, y: 300, width: 50, height: 50, color: "green" },
-    { x: 500, y: 300, width: 50, height: 50, color: "green" },
-  ];
+   obstaclesInstance= new Obstacles(obstacleArray)
+ obstacles = obstaclesInstance.getObstacles()
 }
 
 
@@ -123,9 +129,9 @@ function resetGame() {
   // Setzen Sie alle Spielvariablen auf ihre Anfangswerte zurück
   initializeGameVariables();
 
-  obstacles.forEach((obstacle) => {
-    obstacle.color = "green";
-  });
+  // obstacles.forEach((obstacle) => {
+  //   obstacle.color = "green";
+  // });
 
   // Setzen Sie die Zustandsvariablen zurück
   isGameover = false;
@@ -141,8 +147,9 @@ function resetGame() {
 
   // Starten Sie das Spiel erneut
   gameLoop();
-  // yesButtonGameOver.removeEventListener('click', resetGame);
-  // noButtonGameOver.removeEventListener('click', noButtonClickHandler);
+  ///  um zu löschen eventlkistener , vorher bei scape drücken wurde die geschwimdichkeit der ball erhöht 
+  yesButtonGameOver.removeEventListener('click', resetGame);
+  noButtonGameOver.removeEventListener('click', noButtonClickHandler);
 
 }
 
@@ -154,7 +161,7 @@ function gameLoop() {
 
     ball.moveBall(player, obstacles, canvas);
 
-    drawObstacles();
+    obstaclesInstance.drawObstacles(ctx);
     ball.drawBall(ctx);
     player.drawPlayer(ctx);
 
@@ -167,7 +174,7 @@ function gameLoop() {
       isWinning = true;
       const playAgain = (ctx.font = "20px Helvetica");
       ctx.textAlign = "center";
-      ctx.fillStyle = "Green";
+      ctx.fillStyle = "green";
       ctx.fillText(
         `Congratulations! You win! Do you want to play again?`,
         canvas.width / 2,
@@ -204,10 +211,9 @@ function setupGameOverButtons(buttonY) {
 
   yesButtonGameOver.addEventListener('click', resetGame);
 
-  noButtonGameOver.addEventListener('click', function () {
-    alert('Thank you for playing!');
-  });
+  noButtonGameOver.addEventListener('click', noButtonClickHandler   );
 }
+  
 
 
 document.addEventListener("keydown", function (e) {
