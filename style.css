@@ -3,8 +3,42 @@
     justify-content: center;
     align-items: center;
     height: 100vh; /* Vollständige Höhe des Bildschirms */
-}
+/* }
 
 #canvas-2d {
     border: 5px solid red; /* Optional: Rahmen für das Canvas hinzufügen */
+} */
+#canvas-2d {
+    position: relative;
+    
 }
+
+#yes-win,
+#yes-game-over {
+    background-color: green;
+    color: white;
+    display: none;
+    position: absolute;
+    padding: 10px; /* Add the unit (e.g., pixels) */
+    font-size: 25px;
+    top: 25%;
+    left: 45%;
+    transform: translate(-50%, -50%);
+    z-index: 1; /* Ensure buttons are above the canvas */
+}
+
+#no-win,
+#no-game-over {
+    background-color: green;
+    color: white;
+    display: none;
+    position: absolute;
+    padding: 10px 20px; /* Add the unit (e.g., pixels) */
+    font-size:  25px;
+    top:  25%;
+    left: 55%;
+    transform: translate(-50%, -50%);
+    z-index: 1; /* Ensure buttons are above the canvas */
+}
+
+

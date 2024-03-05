@@ -1,3 +1,4 @@
+
 export default class Player  {
     constructor (x,y,w,h,v) {
         this.x = x;
@@ -23,7 +24,7 @@ export default class Player  {
             this.x += this.v;
         }
     
-        //  um die aktuelle Position des Spielers zu zeichnen
+        // Fügen Sie diese Zeile hinzu, um die aktuelle Position des Spielers zu zeichnen
         this.drawPlayer();
     }
 }

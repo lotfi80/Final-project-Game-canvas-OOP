@@ -4,8 +4,8 @@ function getNextObstacleColor(currentColor) {
     const currentIndex = obstacleColors.indexOf(currentColor);
     const nextIndex = (currentIndex + 1) % obstacleColors.length;
     return obstacleColors[nextIndex];
+    
   }
-  
   
   export default class Ball {
     
@@ -26,7 +26,9 @@ function getNextObstacleColor(currentColor) {
         ctx.fill();
         ctx.stroke();
     }
-    handleCollision(prevBallY, obstacle, index) {
+
+    ///kollision mit jeder Obstacle
+    handleCollision(prevBallY, obstacle) {
         if (
             this.y + this.r > obstacle.y &&
             this.y - this.r < obstacle.y + obstacle.height &&
@@ -43,7 +45,7 @@ function getNextObstacleColor(currentColor) {
         }
        
     }
-    moveBall(player, obstacles,canvas,rounds) {
+    moveBall(player, obstacles,canvas) {
         const prevBallX = this.x;
         const prevBallY = this.y;
     

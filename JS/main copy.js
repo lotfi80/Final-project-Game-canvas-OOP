@@ -1,4 +1,5 @@
-/// this level work with 2 level / another level has been added  
+/// this level work with 1 level only / another level has been not added yet. 
+
 import Player from "./classen/player.js";
 import Ball from "./classen/ball.js";
 import Obstacles from "./classen/obstacles.js";
@@ -21,9 +22,9 @@ let playerSpeed = 10;
 const playerWidth = 100;
 const playerHeight = 10;
 
+
 let player = new Player(playerPositionX, playerPositionY, playerWidth, playerHeight, playerSpeed);
- let level=1;
- let maxLevel=2;
+
 
 let ballRadius = 15;
 let ballX = player.x;
@@ -32,6 +33,7 @@ let ballSpeedX = 5;
 let ballSpeedY = -5;
 let isGameover = false;
 let isWinning = false;
+// let rounds = 0;
 const maxRounds = 3;
 // let isRestarting = false;
 let isStarted = false ;
@@ -52,27 +54,17 @@ let ball = new Ball(
   ballRadius,
   0
 );
-function getLevelText(ctx){
-    
-  ctx.textAlign = "center";
-  ctx.fillStyle = "white";
-  ctx.font = "20px Helvetica"
-  ctx.fillText(`LEVEL: ${level}`, canvas.width / 2, 50);
-
-} 
 
 
 window.onload = function () {
-  
   ctx.fillStyle = "black";
-  ctx.fillRect(0, 0, canvas.width, canvas.height);
+ctx.fillRect(0, 0, canvas.width, canvas.height);
+player.drawPlayer(ctx);
 
-
-
-  getLevelText(ctx)
-  player.drawPlayer(ctx);
-  ball.drawBall(ctx);
-  obstaclesInstance.drawObstacles(ctx);
+ball.drawBall(ctx);
+obstaclesInstance.drawObstacles(ctx);
+  
+    
 };
 
 
@@ -95,13 +87,8 @@ function initializeGameVariables() {
 
   /*  nouvelle instance d'obstacles : objet */
    obstaclesInstance= new Obstacles()
-   if (level>1){
-     obstacles = obstaclesInstance.getNextObstacle(); //  return array of obstacles
-   }
-   else {
-    obstacles= obstaclesInstance.getObstacles(); // return array of obstacles
-   }
 
+ obstacles = obstaclesInstance.getObstacles(); //  return array of obstacles 
 //  console.log('last clg',obstacles)
 //  console.log('last 2',obstacles)
 
@@ -141,7 +128,7 @@ if (yesButtonGameOver){
  
   
 
-  // Starten  das Spiel erneut
+  // Starten Sie das Spiel erneut
   // gameLoop();
   ///  um zu löschen eventlkistener , vorher bei scape drücken wurde die geschwimdichkeit der ball erhöht 
 
@@ -167,12 +154,10 @@ function gameLoop() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.fillStyle = "black";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
-    console.log(obstacles)
-    getLevelText(ctx)
+
     ball.moveBall(player, obstacles, canvas);
 
-
-    obstaclesInstance.drawObstacles(ctx,level);
+    obstaclesInstance.drawObstacles(ctx);
     ball.drawBall(ctx);
     player.drawPlayer(ctx);
 
@@ -182,12 +167,6 @@ function gameLoop() {
     );
 
     if (allObstaclesRed) {
-      if (level <maxLevel){
-        level ++;
-        resetGame();
-
-        
-      }
       isWinning = true;
       const playAgain = (ctx.font = "20px Helvetica");
       ctx.textAlign = "center";
@@ -195,12 +174,13 @@ function gameLoop() {
       const messageY = 100;
       const buttonY = messageY + 200; 
       ctx.fillText(
-        `Congratulations! You win! Do you want to play the next level?`,
+        `Congratulations! You win! Do you want to play again?`,
         canvas.width / 2,
         messageY
       );
       
       setupReplayButtons(buttonY)
+      
     }
 
     // Überprüfen, ob das Spiel vorbei ist
@@ -280,5 +260,4 @@ document.addEventListener("keydown", function (e) {
 
 // Initialisiere das Spiel
 // initializeGameVariables();
-// auskommentiert weil der start folgt nach dem drücken auf den space taste 
 // gameLoop();
