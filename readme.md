@@ -26,6 +26,15 @@ der Zweites Level beinhaltet ein zusätslisches Hinderniss.
 3-Problem mit der Gewinnmeldung behoben und Erfassung der Erfolgsmeldung für das nächste Level implementiert.
 
 
+**TO-DO**
+
+- Vielleicht ein anderen level hinzufügen 
+- eventuell auch bessere style 
+
+
+
+
+
 
 
 
